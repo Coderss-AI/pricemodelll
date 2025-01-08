@@ -1,0 +1,39 @@
+import streamlit as st
+import pickle
+import numpy as np
+import pandas as pd
+
+with open('decision_tree_model.pkl', 'rb') as file:
+   model = pickle.load(file)
+
+st.title("Dori vositalari tavsiyasi")
+Age = st.number_input("Yosh", min_value=0, max_value=120, value=20)
+sex = st.selectbox("Jins", ["Erkak", "Ayol"])
+if sex=="Ayol":
+   Sex=0
+elif sex=="Erkak":
+   Sex=1
+bp = st.selectbox("Qon bosimi", ["PAST", "NORMAL", "YUQORI"])
+if bp=="YUQORI":
+   BP=0
+elif bp=="PAST":
+   BP=1
+elif bp=="NORMAL":
+   BP=2
+cholesterol = st.selectbox("Qondagi xolesterol", ["NORMAL", "YUQORI"])
+if cholesterol=="NORMAL":
+   Cholesterol=1
+elif cholesterol=="YUQORI":
+   Cholesterol=0
+Na_to_k = st.number_input("Organizmdagi natriy miqdorining kaliyga nisbati", min_value=0.0, value=10.0)
+
+if st.button("Bashorat qilish"):
+   input_data = pd.DataFrame([{
+      'Age': Age, 
+      'Sex': Sex, 
+      'BP': BP, 
+      'Cholesterol': Cholesterol, 
+      'Na_to_k': Na_to_k
+   }])
+   prediction = model.predict(input_data)
+   st.success(f"Tavsiya etilgan dori ${prediction}")
