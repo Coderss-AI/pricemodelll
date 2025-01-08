@@ -3,7 +3,7 @@ import pickle
 import numpy as np
 import pandas as pd
 
-with open('decision_tree_model.pkl', 'rb') as file:
+with open('drug.pkl', 'rb') as file:
    model = pickle.load(file)
 
 st.title("Dori vositalari tavsiyasi")
